@@ -1,0 +1,38 @@
+clear all; close all; clc;
+global a1 a2 h_joint clientID copsim xe Ke
+
+%% Robot
+a1 = 0.467;       % longueur du corps 1 = 0,467 m
+a2 = 0.458;       % longueur du corps 2 = 0,458 m
+
+% Dynamiques
+A_raid = diag([500, 500]);     A_souple = diag([100, 100]);
+B_raid = diag([3000, 3000]);   B_souple = diag([1500, 1500]);
+K_raid = diag([2500, 2500]);   K_souple = diag([250, 250]);
+
+%% Cibles
+%x_d = [0.9; 0.0];   
+x_d = [0.55; -0.3]; % boule du bas
+%x_d = [0.85; 0.25]; % boule du milieu
+
+%% Environnement
+% Position de l'environnement
+xe = [0.80528; -0.0609]; 
+xinit = [0.75528; -0.0609]; 
+
+% Modelisation de l'environnement 
+Ke_souple = diag([10^3, 0]);
+Ke_raid =   diag([10^4, 0]);
+
+%% Commande
+% Correcteur cfx
+kp = 9*10^-2; ki = kp; 
+cfx_p = kp;
+cfx_pi = tf([kp ki], [1 0]); % Função de transferência (kp*s + ki)/s
+
+%% Simulation --> lancer simulink ici
+%T_s = 60;
+%simulink
+%open nom_de_votre_programme.slx
+%sim('nom_de_votre_programme', T_s);
+
