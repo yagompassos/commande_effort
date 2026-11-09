@@ -15,20 +15,23 @@ K_raid = diag([2500, 2500]);   K_souple = diag([250, 250]);
 x_d = [0.55; -0.3]; % boule du bas
 %x_d = [0.85; 0.25]; % boule du milieu
 
+f_d = [10; 0];
+
 %% Environnement
 % Position de l'environnement
 xe = [0.80528; -0.0609]; 
 xinit = [0.75528; -0.0609]; 
 
 % Modelisation de l'environnement 
-Ke_raid = diag([1000, 0]);
-Ke_souple = diag([1000, 0]);
+Ke_souple = diag([10^3, 0]);
+Ke_raid =   diag([10^4, 0]);
 
 %% Commande
 % Correcteur cfx
-kp = 9*10^-2; ki = kp; 
+kp = 9*10^-2; 
+ki = kp; 
 cfx_p = kp;
-cfx_pi = tf([kp ki], [1 0]); % Função de transferência (kp*s + ki)/s
+cfx_pi = tf([kp ki], [1 0]); 
 
 %% Simulation --> lancer simulink ici
 %T_s = 60;
@@ -36,3 +39,14 @@ cfx_pi = tf([kp ki], [1 0]); % Função de transferência (kp*s + ki)/s
 %open nom_de_votre_programme.slx
 %sim('nom_de_votre_programme', T_s);
 
+%% ot
+pos_ot = out.out_xy;
+figure;
+plot(pos_ot(:,1), pos_ot(:,2), 'b-', 'LineWidth', 1.5);
+hold on;
+plot(xe(1), xe(2), 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r'); 
+grid on;
+xlabel('x (m)');
+ylabel('y (m)');
+title('OT');
+axis equal;
